@@ -1,0 +1,10 @@
+{
+  "name": "codewars-guess-who",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/federico-allegrini/codewars-guess-who.git"
+  },
+  "author": "federico-allegrini",
+  "type": "module"
+}
