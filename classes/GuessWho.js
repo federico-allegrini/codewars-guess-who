@@ -4,6 +4,7 @@ import {
   allCharactersCharacteristics,
   findCharacterByName,
 } from "../data/characters.js";
+import displayList from "../utils/displayList.js";
 
 export default class GuessWho {
   constructor(name) {
@@ -43,17 +44,20 @@ export default class GuessWho {
     if (this.characterToGuess.hasCharacteristics(nameOrCharacteristic)) {
       this.rightChosenCharacteristic.push(nameOrCharacteristic);
       console.log(
-        `{Right chosen characteristic} \n- ${this.rightChosenCharacteristic
-          .map((r) => r + " - ")
-          .join("")}`
+        `{Right chosen characteristic} \n${displayList(
+          this.rightChosenCharacteristic
+        )}`
       );
       // Update remaining characters all characters with the input characteristic
       this.remainingCharacter = this.remainingCharacter.filter((character) =>
         character.hasCharacteristics(nameOrCharacteristic)
       );
-      return `All characters with characteristic "${nameOrCharacteristic}": \n${this.remainingCharacter
-        .map((c) => " * " + c.name + "\n")
-        .join("")}`;
+      return `All characters with characteristic "${nameOrCharacteristic}": \n${displayList(
+        this.remainingCharacter,
+        "name",
+        "+",
+        true
+      )}`;
     }
 
     // If character to guess hasn't this characteristic
@@ -63,9 +67,12 @@ export default class GuessWho {
       this.remainingCharacter = this.remainingCharacter.filter(
         (character) => !character.hasCharacteristics(nameOrCharacteristic)
       );
-      return `All characters without characteristic: "${nameOrCharacteristic}" \n${this.remainingCharacter
-        .map((c) => " * " + c.name + "\n")
-        .join("")}`;
+      return `All characters without characteristic: "${nameOrCharacteristic}" \n${displayList(
+        this.remainingCharacter,
+        "name",
+        "-",
+        true
+      )}`;
     }
 
     // In all other cases return wrong value message
