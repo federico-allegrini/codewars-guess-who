@@ -184,9 +184,29 @@ const allCharactersCharacteristics = [
 const findCharacterByName = (name) =>
   allCharacters.find((character) => character.name === name);
 
+const getRandomNameOrCharacteristic = (typeOfInput = "random") => {
+  const indexTypeOfInput = [];
+  switch (typeOfInput) {
+    case "name":
+      indexTypeOfInput[0] = 0;
+      break;
+    case "character":
+      indexTypeOfInput[0] = 1;
+      break;
+    default:
+      indexTypeOfInput[0] = Math.round(Math.random());
+  }
+  const randomTypeOfInput = [allCharactersNames, allCharactersCharacteristics][
+    indexTypeOfInput
+  ];
+  const randomIndex = Math.floor(Math.random() * randomTypeOfInput.length);
+  return randomTypeOfInput[randomIndex];
+};
+
 export {
   allCharacters,
   allCharactersNames,
   allCharactersCharacteristics,
   findCharacterByName,
+  getRandomNameOrCharacteristic,
 };

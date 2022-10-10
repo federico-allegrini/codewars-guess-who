@@ -19,7 +19,8 @@ export default class GuessWho {
   guess(nameOrCharacteristic) {
     // You have already win
     if (this.endGame) {
-      return `You have already win in ${this.tryCounter} trys`;
+      console.log(`You have already win in ${this.tryCounter} trys`);
+      return true;
     }
 
     // Increment try counter and number of trying message
@@ -31,12 +32,14 @@ export default class GuessWho {
     // Win if the input is equal to name
     if (nameOrCharacteristic === this.characterToGuess.name) {
       this.endGame = true;
-      return `You win in ${this.tryCounter} try\n`;
+      console.log(`You win in ${this.tryCounter} try\n`);
+      return true;
     }
 
     // Lose if the input is one of other names
     if (allCharactersNames.includes(nameOrCharacteristic)) {
-      return `You're wrong, try number ${this.tryCounter}\n`;
+      console.log(`You're wrong, try number ${this.tryCounter}\n`);
+      return false;
     }
 
     // If character to guess has this characteristic
@@ -52,12 +55,15 @@ export default class GuessWho {
       this.remainingCharacter = this.remainingCharacter.filter((character) =>
         character.hasCharacteristics(nameOrCharacteristic)
       );
-      return `All characters with characteristic "${nameOrCharacteristic}": \n${displayList(
-        this.remainingCharacter,
-        "name",
-        "+",
-        true
-      )}`;
+      console.log(
+        `All characters with characteristic "${nameOrCharacteristic}": \n${displayList(
+          this.remainingCharacter,
+          "name",
+          "+",
+          true
+        )}`
+      );
+      return false;
     }
 
     // If character to guess hasn't this characteristic
@@ -67,15 +73,19 @@ export default class GuessWho {
       this.remainingCharacter = this.remainingCharacter.filter(
         (character) => !character.hasCharacteristics(nameOrCharacteristic)
       );
-      return `All characters without characteristic: "${nameOrCharacteristic}" \n${displayList(
-        this.remainingCharacter,
-        "name",
-        "-",
-        true
-      )}`;
+      console.log(
+        `All characters without characteristic: "${nameOrCharacteristic}" \n${displayList(
+          this.remainingCharacter,
+          "name",
+          "-",
+          true
+        )}`
+      );
+      return false;
     }
 
     // In all other cases return wrong value message
-    return `Input value isn't a valid name or characteristic\n`;
+    console.log(`Input value isn't a valid name or characteristic\n`);
+    return false;
   }
 }
