@@ -20,7 +20,7 @@ export default class GuessWho {
     // You have already win
     if (this.endGame) {
       console.log(`You have already win in ${this.tryCounter} trys`);
-      return true;
+      return [true, []];
     }
 
     // Increment try counter and number of trying message
@@ -33,13 +33,17 @@ export default class GuessWho {
     if (nameOrCharacteristic === this.characterToGuess.name) {
       this.endGame = true;
       console.log(`You win in ${this.tryCounter} try\n`);
-      return true;
+      return [true, []];
     }
 
     // Lose if the input is one of other names
     if (allCharactersNames.includes(nameOrCharacteristic)) {
       console.log(`You're wrong, try number ${this.tryCounter}\n`);
-      return false;
+      // Update remaining characters all characters without the input name
+      this.remainingCharacter = this.remainingCharacter.filter(
+        (character) => character.name !== nameOrCharacteristic
+      );
+      return [false, this.remainingCharacter];
     }
 
     // If character to guess has this characteristic
@@ -63,7 +67,7 @@ export default class GuessWho {
           true
         )}`
       );
-      return false;
+      return [false, this.remainingCharacter];
     }
 
     // If character to guess hasn't this characteristic
@@ -81,11 +85,11 @@ export default class GuessWho {
           true
         )}`
       );
-      return false;
+      return [false, this.remainingCharacter];
     }
 
     // In all other cases return wrong value message
     console.log(`Input value isn't a valid name or characteristic\n`);
-    return false;
+    return [false, this.remainingCharacter];
   }
 }

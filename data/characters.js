@@ -181,10 +181,25 @@ const allCharactersCharacteristics = [
   ),
 ];
 
+const extractCharactersNames = (characters) =>
+  characters.map((character) => character.name);
+
+const extractCharactersCharacteristics = (characters) => [
+  ...new Set(
+    characters
+      .map((character) => character.characteristics)
+      .reduce((all, char) => [...all, ...char], [])
+  ),
+];
+
 const findCharacterByName = (name) =>
   allCharacters.find((character) => character.name === name);
 
-const getRandomNameOrCharacteristic = (typeOfInput = "random") => {
+const getRandomNameOrCharacteristic = (
+  typeOfInput = "random",
+  remainingNames = allCharactersNames,
+  remainingCharactersCharacteristics = allCharactersCharacteristics
+) => {
   const indexTypeOfInput = [];
   switch (typeOfInput) {
     case "name":
@@ -196,9 +211,14 @@ const getRandomNameOrCharacteristic = (typeOfInput = "random") => {
     default:
       indexTypeOfInput[0] = Math.round(Math.random());
   }
-  const randomTypeOfInput = [allCharactersNames, allCharactersCharacteristics][
-    indexTypeOfInput
-  ];
+  // If there is only one name left, return always the correct name
+  if (remainingNames.length === 1) {
+    return remainingNames[0];
+  }
+  const randomTypeOfInput = [
+    remainingNames,
+    remainingCharactersCharacteristics,
+  ][indexTypeOfInput];
   const randomIndex = Math.floor(Math.random() * randomTypeOfInput.length);
   return randomTypeOfInput[randomIndex];
 };
@@ -207,6 +227,8 @@ export {
   allCharacters,
   allCharactersNames,
   allCharactersCharacteristics,
+  extractCharactersNames,
+  extractCharactersCharacteristics,
   findCharacterByName,
   getRandomNameOrCharacteristic,
 };

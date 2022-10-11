@@ -1,5 +1,18 @@
 import GuessWho from "./classes/GuessWho.js";
-import { getRandomNameOrCharacteristic } from "./data/characters.js";
+import {
+  getRandomNameOrCharacteristic,
+  extractCharactersNames,
+  extractCharactersCharacteristics,
+} from "./data/characters.js";
 
 const game = new GuessWho(getRandomNameOrCharacteristic("name"));
-while (!game.guess(getRandomNameOrCharacteristic())) {}
+let [result, remainingCharacters] = game.guess(getRandomNameOrCharacteristic());
+while (!result) {
+  [result, remainingCharacters] = game.guess(
+    getRandomNameOrCharacteristic(
+      "random",
+      extractCharactersNames(remainingCharacters),
+      extractCharactersCharacteristics(remainingCharacters)
+    )
+  );
+}
